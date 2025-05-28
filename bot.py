@@ -332,3 +332,10 @@ class TelegramBot:
                 return f"{size:.1f} {unit}"
             size /= 1024.0
         return f"{size:.1f} TB"
+
+async def main():
+    bot = TelegramBot()
+    await bot.start()
+
+if __name__ == "__main__":
+    asyncio.run(main())
