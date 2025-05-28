@@ -90,6 +90,7 @@ class TelegramBot:
 
         @self.client.on(events.NewMessage)
         async def message_handler(event):
+            logger.info(f"Received message: {event.message.text} from user: {event.sender_id}")
             # Skip if it's a command (already handled by specific handlers)
             if event.message.text and event.message.text.startswith('/'):
                 return
@@ -123,8 +124,6 @@ class TelegramBot:
                             "• A direct download URL\n\n"
                             "Use /help for more information."
                         )
-                
-                # Ignore other message types (stickers, photos without documents, etc.)
                 
             except Exception as e:
                 logger.error(f"Error handling message from user {user_id}: {e}")
@@ -332,10 +331,3 @@ class TelegramBot:
                 return f"{size:.1f} {unit}"
             size /= 1024.0
         return f"{size:.1f} TB"
-
-async def main():
-    bot = TelegramBot()
-    await bot.start()
-
-if __name__ == "__main__":
-    asyncio.run(main())
