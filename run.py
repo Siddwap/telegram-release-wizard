@@ -5,7 +5,6 @@ Simple runner script for the Telegram bot and Flask app.
 import asyncio
 import sys
 import logging
-import signal
 from bot import TelegramBot
 from config import BotConfig
 from threading import Thread
@@ -43,11 +42,11 @@ async def main():
         # Load and validate configuration
         config = BotConfig.from_env()
         config.validate()
-        
+
         logger.info("Starting Telegram GitHub Release Uploader Bot...")
         logger.info(f"Target repository: {config.github_repo}")
         logger.info(f"Release tag: {config.github_release_tag}")
-        
+
         # Start the bot
         bot = TelegramBot()
         await bot.start()
