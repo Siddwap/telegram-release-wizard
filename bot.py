@@ -44,7 +44,7 @@ class TelegramBot:
         """Start the bot"""
         try:
             await self.client.start(bot_token=self.bot_token)
-            logger.info("Bot started successfully")
+            logger.info("Bot started successfully and is listening for messages.")
         except Exception as e:
             logger.error(f"Failed to start bot: {e}")
             raise
@@ -60,6 +60,7 @@ class TelegramBot:
                 "• /help - Show this message\n"
                 "• /status - Check upload status"
             )
+            logger.info("Responded to /start command.")
             raise events.StopPropagation
 
         @self.client.on(events.NewMessage(pattern='/help'))
@@ -76,6 +77,7 @@ class TelegramBot:
                 f"**Target Repository:** `{self.github_repo}`\n"
                 f"**Release Tag:** `{self.github_release_tag}`"
             )
+            logger.info("Responded to /help command.")
             raise events.StopPropagation
 
         @self.client.on(events.NewMessage(pattern='/status'))
@@ -86,6 +88,7 @@ class TelegramBot:
                 await event.respond(f"📊 Active upload: {upload_info['filename']} - {upload_info['status']}")
             else:
                 await event.respond("No active uploads")
+            logger.info("Checked status for user: {}".format(user_id))
             raise events.StopPropagation
 
         @self.client.on(events.NewMessage)
